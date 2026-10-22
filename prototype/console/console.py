@@ -9,6 +9,9 @@
 
 Demo convenience: with MANDATE_CONSOLE_DEMO_TOKEN=1 (set by demo/launch.sh) the console adds the DEMO owner token to
 proxied requests, so judges do not type it. It is a demo token for a local-only prototype, never a credential.
+Preview mode: python console/console.py --preview serves the same UI with no Docker and no control plane. Every
+/api/* read is replayed from console/preview.json, which is generated from this repository's own recorded evidence
+(see console/make_preview.py). Nothing can be run, approved or changed, and the UI says so on every page.
 Usage: python console/console.py   (normally started by demo/launch.sh)"""
 import glob, json, os, subprocess, sys, threading, time, urllib.error, urllib.request
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
@@ -24,6 +27,8 @@ VAL = ROOT.parent                                        # validation/
 STATIC = Path(__file__).resolve().parent / "static"
 CONTROL = os.environ.get("MANDATE_CONTROL_URL", "http://127.0.0.1:8800")
 PORT = int(os.environ.get("MANDATE_CONSOLE_PORT", "8090"))
+PREVIEW = "--preview" in sys.argv or "--offline" in sys.argv                        # read-only replay of recorded evidence; no Docker, no control plane
+PREVIEW_FILE = Path(__file__).resolve().parent / "preview.json"
 DEMO_TOKEN = os.environ.get("MANDATE_OWNER_TOKEN", "demo-owner-token")
 INJECT = os.environ.get("MANDATE_CONSOLE_DEMO_TOKEN") == "1"
 ENGINE_REQUIRED = os.environ.get("MANDATE_ENGINE", "E4.3.1")   # release R-E4.3.1; set MANDATE_ENGINE for an earlier validated engine
@@ -460,6 +465,35 @@ def evidence_pack(decision_id):
     return 200, body
 
 
+# ------------------------------------------------------------------ preview mode (no Docker, no control plane)
+_PREVIEW_CACHE = {}
+
+
+def preview_fixture():
+    """The recorded replay. Loaded once; regenerate it with console/make_preview.py."""
+    if not _PREVIEW_CACHE:
+        if not PREVIEW_FILE.exists():
+            raise SystemExit(f"preview mode needs {PREVIEW_FILE.name}. Generate it with: python console/make_preview.py")
+        _PREVIEW_CACHE.update(json.loads(PREVIEW_FILE.read_text(encoding="utf-8")))
+    return _PREVIEW_CACHE
+
+
+def preview_read(path):
+    """(status, body) for a GET that preview mode answers from recorded evidence, else (None, None)."""
+    key = path.split("?")[0]
+    fx = preview_fixture()
+    if key in fx:
+        return 200, fx[key]
+    if key.startswith("/api/"):                          # any other owner read: honest empty, never invented
+        return 200, []
+    return None, None
+
+
+PREVIEW_BLOCKED = {"error": "preview mode is read-only",
+                   "detail": "This console is replaying recorded evidence, so nothing can be run, approved or changed. "
+                             "To run MANDATE for real, follow QUICKSTART.md and start it with: bash demo/launch.sh"}
+
+
 # ------------------------------------------------------------------ HTTP
 class H(BaseHTTPRequestHandler):
     server_version = "MANDATE-console"
@@ -507,6 +541,10 @@ class H(BaseHTTPRequestHandler):
         self.send(200, raw=f.read_bytes(), ctype=TYPES.get(f.suffix, "application/octet-stream"))
 
     def do_GET(self):
+        if PREVIEW:
+            st, body = preview_read(self.path)
+            if st is not None:
+                return self.send(st, body)
         if self.path.startswith("/api/"):
             return self.proxy("GET")
         if self.path == "/console/health":
@@ -533,6 +571,8 @@ class H(BaseHTTPRequestHandler):
         return self.static()
 
     def do_POST(self):
+        if PREVIEW:
+            return self.send(503, PREVIEW_BLOCKED)
         if self.path.startswith("/api/"):
             return self.proxy("POST")
         if self.path.startswith("/console/") and self.headers.get("X-Console-Action") != "1":
@@ -618,5 +658,14 @@ if __name__ == "__main__":
         st, j = control("/api/seed", SEED)
         print("seed", st, j if st != 200 else f"agents={j.get('agents')}"); sys.exit(0 if st == 200 else 1)
     srv = ThreadingHTTPServer(("127.0.0.1", PORT), H)
-    print(f"MANDATE console on http://127.0.0.1:{PORT}  (control plane {CONTROL}; demo token injection {'ON' if INJECT else 'OFF'})", flush=True)
+    if PREVIEW:
+        fx = preview_fixture()
+        n = len(fx.get("/api/events", []))
+        for line in ("", "  MANDATE console - PREVIEW MODE (read-only)", f"  Open http://127.0.0.1:{PORT}", "",
+                     f"  Replaying {n} recorded decisions from this repository's own evidence.",
+                     "  Nothing runs here. To run MANDATE for real: see QUICKSTART.md",
+                     "  Stop with Ctrl+C", ""):
+            print(line, flush=True)
+    else:
+        print(f"MANDATE console on http://127.0.0.1:{PORT}  (control plane {CONTROL}; demo token injection {'ON' if INJECT else 'OFF'})", flush=True)
     srv.serve_forever()

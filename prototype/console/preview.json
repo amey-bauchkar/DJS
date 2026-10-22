@@ -1,0 +1,948 @@
+{
+ "preview": true,
+ "source": "recorded from demo/audit.jsonl and demo/runs/ in this repository",
+ "/console/health": {
+  "docker": false,
+  "docker_error": null,
+  "services": [
+   {
+    "service": "control",
+    "state": "recorded",
+    "status": "from a recorded run"
+   },
+   {
+    "service": "pep",
+    "state": "recorded",
+    "status": "from a recorded run"
+   },
+   {
+    "service": "tools",
+    "state": "recorded",
+    "status": "from a recorded run"
+   },
+   {
+    "service": "agent_a",
+    "state": "recorded",
+    "status": "from a recorded run"
+   },
+   {
+    "service": "agent_b",
+    "state": "recorded",
+    "status": "from a recorded run"
+   },
+   {
+    "service": "terminator",
+    "state": "recorded",
+    "status": "from a recorded run"
+   }
+  ],
+  "control": {
+   "reachable": true,
+   "meta": {
+    "service": "mandate-control",
+    "engine": "E4.3.1",
+    "engine_config": "E4.3.1",
+    "cedar": true,
+    "recovery": false,
+    "recovery_reason": null,
+    "persistence": {
+     "state_dir": true,
+     "anchor": true,
+     "signed": true,
+     "findings": []
+    },
+    "audit": {
+     "ok": true,
+     "records": 24
+    },
+    "counts": {
+     "agents": 2,
+     "pending_approvals": 1,
+     "quarantined": 1,
+     "alerts": 0,
+     "decisions": 28
+    },
+    "injection_detector": {
+     "present_in_engine": true,
+     "enabled": true,
+     "scope": "documents only"
+    },
+    "learned_sequence_model": {
+     "enabled": true,
+     "alert_only": true
+    },
+    "baseline_source": "recorded demo run (preview)",
+    "notes": [
+     "Preview mode: these records were recorded from a real demo run and are replayed read-only.",
+     "Risk score is an ordinal 0-100 index of documented factors, not a probability.",
+     "Nothing can be run, approved or changed in preview mode."
+    ]
+   },
+   "error": null
+  },
+  "container_env": {
+   "MANDATE_ENGINE": "E4.3.1",
+   "MANDATE_RECOVERY": "0"
+  },
+  "engine_required": "E4.3.1",
+  "engine_ok": true,
+  "console_demo_token": true,
+  "preview": true
+ },
+ "/api/meta": {
+  "service": "mandate-control",
+  "engine": "E4.3.1",
+  "engine_config": "E4.3.1",
+  "cedar": true,
+  "recovery": false,
+  "recovery_reason": null,
+  "persistence": {
+   "state_dir": true,
+   "anchor": true,
+   "signed": true,
+   "findings": []
+  },
+  "audit": {
+   "ok": true,
+   "records": 24
+  },
+  "counts": {
+   "agents": 2,
+   "pending_approvals": 1,
+   "quarantined": 1,
+   "alerts": 0,
+   "decisions": 28
+  },
+  "injection_detector": {
+   "present_in_engine": true,
+   "enabled": true,
+   "scope": "documents only"
+  },
+  "learned_sequence_model": {
+   "enabled": true,
+   "alert_only": true
+  },
+  "baseline_source": "recorded demo run (preview)",
+  "notes": [
+   "Preview mode: these records were recorded from a real demo run and are replayed read-only.",
+   "Risk score is an ordinal 0-100 index of documented factors, not a probability.",
+   "Nothing can be run, approved or changed in preview mode."
+  ]
+ },
+ "/api/agents": [
+  {
+   "agent_id": "agent:cell-a",
+   "role": "procurement",
+   "status": "active",
+   "task": "price_check",
+   "task_instruction": "check valve prices from umbrella",
+   "subjects": [],
+   "requester": null,
+   "owner": "owner",
+   "created": 1792659831.5626771,
+   "history_n": 61,
+   "mandate": {
+    "tools": [
+     "search_suppliers",
+     "get_prices",
+     "read_supplier_doc",
+     "create_purchase_request",
+     "send_email",
+     "delegate_task",
+     "list_workspace_docs",
+     "read_workspace_doc"
+    ],
+    "destinations": [
+     "internal",
+     "*.supplier.example"
+    ],
+    "max_sensitivity": 1,
+    "may_delegate_to": [
+     "research"
+    ],
+    "read_budget": {
+     "per_600s": 40,
+     "per_3600s": 120,
+     "sensitive_unique": 3,
+     "per_86400s": 300,
+     "distinct_per_day": 60,
+     "distinct_per_week": 200
+    },
+    "tasks": {
+     "price_check": [
+      "search_suppliers",
+      "get_prices"
+     ],
+     "purchase": [
+      "search_suppliers",
+      "get_prices",
+      "create_purchase_request",
+      "send_email"
+     ],
+     "supplier_review": [
+      "read_supplier_doc",
+      "get_prices",
+      "search_suppliers"
+     ],
+     "market_research": [
+      "delegate_task",
+      "search_suppliers"
+     ],
+     "catalog_refresh": [
+      "search_suppliers",
+      "get_prices"
+     ],
+     "parallel_catalog_refresh": [
+      "search_suppliers",
+      "get_prices"
+     ],
+     "supplier_review_docs": [
+      "list_workspace_docs",
+      "read_workspace_doc",
+      "search_suppliers",
+      "get_prices",
+      "create_purchase_request"
+     ]
+    }
+   },
+   "cold_start": false,
+   "drift_js": 0.0,
+   "accumulator": 0.0,
+   "open_alerts": 0
+  },
+  {
+   "agent_id": "agent:cell-b",
+   "role": "research",
+   "status": "quarantined",
+   "task": "research",
+   "task_instruction": "research valves",
+   "subjects": [],
+   "requester": null,
+   "owner": "owner",
+   "created": 1792659831.5648155,
+   "history_n": 0,
+   "mandate": {
+    "tools": [
+     "web_search",
+     "read_doc",
+     "write_summary",
+     "send_email",
+     "list_workspace_docs",
+     "read_workspace_doc"
+    ],
+    "destinations": [
+     "internal",
+     "*.public.example"
+    ],
+    "max_sensitivity": 1,
+    "may_delegate_to": [],
+    "read_budget": {
+     "per_600s": 60,
+     "per_3600s": 200,
+     "sensitive_unique": 3,
+     "per_86400s": 500,
+     "distinct_per_day": 150,
+     "distinct_per_week": 500
+    },
+    "tasks": {
+     "research": [
+      "web_search",
+      "read_doc",
+      "write_summary"
+     ],
+     "report": [
+      "read_doc",
+      "write_summary",
+      "send_email"
+     ],
+     "document_review": [
+      "list_workspace_docs",
+      "read_workspace_doc",
+      "read_doc",
+      "write_summary"
+     ]
+    }
+   },
+   "cold_start": true,
+   "drift_js": 0.0,
+   "accumulator": 0.0,
+   "open_alerts": 0
+  }
+ ],
+ "/api/events": [
+  {
+   "decision_id": "dec-38c1ead089",
+   "tool": "get_prices",
+   "response": "ALLOW",
+   "control": "none",
+   "reason": "within mandate",
+   "risk_score": 0,
+   "risk_band": "LOW",
+   "confidence": "normal",
+   "agent_id": "agent:cell-a",
+   "args": {},
+   "role": "procurement",
+   "ts": 1792439584.1637366
+  },
+  {
+   "decision_id": "dec-b05fdf5109",
+   "tool": "read_hr_record",
+   "response": "DENY",
+   "control": "deterministic",
+   "reason": "out-of-role action",
+   "risk_score": 45,
+   "risk_band": "MEDIUM",
+   "confidence": "normal",
+   "agent_id": "agent:cell-a",
+   "args": {},
+   "role": "procurement",
+   "ts": 1792439584.1637366
+  },
+  {
+   "decision_id": "dec-b76ff32406",
+   "agent_id": "agent:cell-a",
+   "role": "procurement",
+   "task": "price_check",
+   "tool": "get_prices",
+   "args": {},
+   "destination": "internal",
+   "delegation": null,
+   "response": "ALLOW",
+   "reason": "within mandate",
+   "risk_score": 0,
+   "risk_band": "LOW",
+   "confidence": "normal",
+   "factors": [],
+   "expected_authority": {
+    "role": "procurement",
+    "mandate_tools": [
+     "search_suppliers",
+     "get_prices",
+     "read_supplier_doc",
+     "create_purchase_request",
+     "send_email",
+     "delegate_task",
+     "list_workspace_docs",
+     "read_workspace_doc"
+    ],
+    "max_sensitivity": 1,
+    "destinations": [
+     "internal",
+     "*.supplier.example"
+    ],
+    "task": "price_check",
+    "task_tools": [
+     "search_suppliers",
+     "get_prices"
+    ]
+   },
+   "ts": 1792659887.2328753,
+   "read_key": "get_prices:44136fa355b3678a1146ad16",
+   "read_sens": 1,
+   "pool": [
+    "owner",
+    "price_list"
+   ]
+  },
+  {
+   "decision_id": "dec-e8bc0808c4",
+   "agent_id": "agent:cell-a",
+   "role": "procurement",
+   "task": "price_check",
+   "tool": "read_hr_record",
+   "args": {},
+   "destination": "internal",
+   "delegation": null,
+   "response": "DENY",
+   "reason": "out-of-role action",
+   "risk_score": 45,
+   "risk_band": "MEDIUM",
+   "confidence": "normal",
+   "factors": [
+    {
+     "factor": "out_of_role",
+     "points": 45,
+     "evidence": "tool 'read_hr_record' is not in the procurement mandate ['search_suppliers', 'get_prices', 'read_supplier_doc', 'create_purchase_request', 'send_email', 'delegate_task', 'list_workspace_docs', 'read_workspace_doc']"
+    }
+   ],
+   "expected_authority": {
+    "role": "procurement",
+    "mandate_tools": [
+     "search_suppliers",
+     "get_prices",
+     "read_supplier_doc",
+     "create_purchase_request",
+     "send_email",
+     "delegate_task",
+     "list_workspace_docs",
+     "read_workspace_doc"
+    ],
+    "max_sensitivity": 1,
+    "destinations": [
+     "internal",
+     "*.supplier.example"
+    ],
+    "task": "price_check",
+    "task_tools": [
+     "search_suppliers",
+     "get_prices"
+    ]
+   },
+   "ts": 1792659900.3165631
+  },
+  {
+   "decision_id": "dec-8a45a34e25",
+   "agent_id": "agent:cell-a",
+   "role": "procurement",
+   "task": "price_check",
+   "tool": "create_purchase_request",
+   "args": {},
+   "destination": "internal",
+   "delegation": null,
+   "response": "APPROVAL_REQUIRED",
+   "reason": "risk MEDIUM",
+   "risk_score": 35,
+   "risk_band": "MEDIUM",
+   "confidence": "normal",
+   "factors": [
+    {
+     "factor": "task_scope_deviation",
+     "points": 15,
+     "evidence": "'create_purchase_request' is in the role but not in active task 'price_check' ['search_suppliers', 'get_prices']"
+    },
+    {
+     "factor": "novel_tool",
+     "points": 10,
+     "evidence": "'create_purchase_request' never observed in agent baseline"
+    },
+    {
+     "factor": "impact",
+     "points": 10,
+     "evidence": "impact level 2 (write)"
+    }
+   ],
+   "expected_authority": {
+    "role": "procurement",
+    "mandate_tools": [
+     "search_suppliers",
+     "get_prices",
+     "read_supplier_doc",
+     "create_purchase_request",
+     "send_email",
+     "delegate_task",
+     "list_workspace_docs",
+     "read_workspace_doc"
+    ],
+    "max_sensitivity": 1,
+    "destinations": [
+     "internal",
+     "*.supplier.example"
+    ],
+    "task": "price_check",
+    "task_tools": [
+     "search_suppliers",
+     "get_prices"
+    ]
+   },
+   "ts": 1792659930.751062
+  },
+  {
+   "decision_id": "dec-95e626070d",
+   "agent_id": "agent:cell-a",
+   "role": "procurement",
+   "task": "price_check",
+   "tool": "create_purchase_request",
+   "args": {},
+   "destination": "internal",
+   "delegation": null,
+   "response": "ALLOW",
+   "reason": "owner approval apr-dbf099c1 (one-time)",
+   "risk_score": 35,
+   "risk_band": "MEDIUM",
+   "confidence": "normal",
+   "factors": [
+    {
+     "factor": "task_scope_deviation",
+     "points": 15,
+     "evidence": "'create_purchase_request' is in the role but not in active task 'price_check' ['search_suppliers', 'get_prices']"
+    },
+    {
+     "factor": "novel_tool",
+     "points": 10,
+     "evidence": "'create_purchase_request' never observed in agent baseline"
+    },
+    {
+     "factor": "impact",
+     "points": 10,
+     "evidence": "impact level 2 (write)"
+    },
+    {
+     "factor": "drift_alert",
+     "points": 0,
+     "evidence": "50 deviation points in the last 10 actions >= 40"
+    }
+   ],
+   "expected_authority": {
+    "role": "procurement",
+    "mandate_tools": [
+     "search_suppliers",
+     "get_prices",
+     "read_supplier_doc",
+     "create_purchase_request",
+     "send_email",
+     "delegate_task",
+     "list_workspace_docs",
+     "read_workspace_doc"
+    ],
+    "max_sensitivity": 1,
+    "destinations": [
+     "internal",
+     "*.supplier.example"
+    ],
+    "task": "price_check",
+    "task_tools": [
+     "search_suppliers",
+     "get_prices"
+    ]
+   },
+   "ts": 1792659954.4371405
+  },
+  {
+   "decision_id": "dec-b856cf9d0a",
+   "agent_id": "agent:cell-a",
+   "role": "procurement",
+   "task": "price_check",
+   "tool": "create_purchase_request",
+   "args": {},
+   "destination": "internal",
+   "delegation": null,
+   "response": "APPROVAL_REQUIRED",
+   "reason": "step-up: effect_budget",
+   "risk_score": 65,
+   "risk_band": "HIGH",
+   "confidence": "normal",
+   "factors": [
+    {
+     "factor": "effect_budget",
+     "points": 30,
+     "evidence": "identical 'create_purchase_request' already executed 1x in 3600s (budget 1)"
+    },
+    {
+     "factor": "task_scope_deviation",
+     "points": 15,
+     "evidence": "'create_purchase_request' is in the role but not in active task 'price_check' ['search_suppliers', 'get_prices']"
+    },
+    {
+     "factor": "novel_tool",
+     "points": 10,
+     "evidence": "'create_purchase_request' never observed in agent baseline"
+    },
+    {
+     "factor": "impact",
+     "points": 10,
+     "evidence": "impact level 2 (write)"
+    },
+    {
+     "factor": "drift_alert",
+     "points": 0,
+     "evidence": "50 deviation points in the last 10 actions >= 40"
+    }
+   ],
+   "expected_authority": {
+    "role": "procurement",
+    "mandate_tools": [
+     "search_suppliers",
+     "get_prices",
+     "read_supplier_doc",
+     "create_purchase_request",
+     "send_email",
+     "delegate_task",
+     "list_workspace_docs",
+     "read_workspace_doc"
+    ],
+    "max_sensitivity": 1,
+    "destinations": [
+     "internal",
+     "*.supplier.example"
+    ],
+    "task": "price_check",
+    "task_tools": [
+     "search_suppliers",
+     "get_prices"
+    ]
+   },
+   "ts": 1792659960.0959399
+  },
+  {
+   "decision_id": "dec-5fccd5f28d",
+   "tool": "search_suppliers",
+   "response": "ALLOW",
+   "control": "none",
+   "reason": "within mandate",
+   "risk_score": 0,
+   "risk_band": "LOW",
+   "confidence": "normal",
+   "agent_id": "agent:cell-a",
+   "args": {},
+   "role": "procurement",
+   "ts": 1792668985.4048328
+  },
+  {
+   "decision_id": "dec-b1c17edb7a",
+   "tool": "get_prices",
+   "response": "ALLOW",
+   "control": "none",
+   "reason": "within mandate",
+   "risk_score": 0,
+   "risk_band": "LOW",
+   "confidence": "normal",
+   "agent_id": "agent:cell-a",
+   "args": {},
+   "role": "procurement",
+   "ts": 1792668985.4048328
+  },
+  {
+   "decision_id": "dec-03e4153de4",
+   "tool": "read_supplier_doc",
+   "response": "ALLOW",
+   "control": "none",
+   "reason": "within mandate",
+   "risk_score": 15,
+   "risk_band": "LOW",
+   "confidence": "normal",
+   "agent_id": "agent:cell-a",
+   "args": {},
+   "role": "procurement",
+   "ts": 1792668988.1324732
+  },
+  {
+   "decision_id": "dec-03a863dfbb",
+   "tool": "read_hr_record",
+   "response": "DENY",
+   "control": "deterministic",
+   "reason": "out-of-role action",
+   "risk_score": 45,
+   "risk_band": "MEDIUM",
+   "confidence": "normal",
+   "agent_id": "agent:cell-a",
+   "args": {},
+   "role": "procurement",
+   "ts": 1792668988.1324732
+  },
+  {
+   "decision_id": "dec-60a5db84a0",
+   "tool": "send_email",
+   "response": "DENY",
+   "control": "deterministic",
+   "reason": "agent is quarantined",
+   "risk_score": 50,
+   "risk_band": "MEDIUM",
+   "confidence": "normal",
+   "agent_id": "agent:cell-a",
+   "args": {},
+   "role": "procurement",
+   "ts": 1792668988.1324732
+  },
+  {
+   "decision_id": "dec-a7ec561026",
+   "tool": "create_purchase_request",
+   "response": "ALLOW",
+   "control": "approval_grant",
+   "reason": "owner approval apr-96f54396 (one-time)",
+   "risk_score": 95,
+   "risk_band": "HIGH",
+   "confidence": "normal",
+   "agent_id": "agent:cell-a",
+   "args": {},
+   "role": "procurement",
+   "ts": 1792668996.1328616
+  },
+  {
+   "decision_id": "dec-a9ae27a9de",
+   "tool": "create_purchase_request",
+   "response": "APPROVAL_REQUIRED",
+   "control": "policy_P",
+   "reason": "policy P step-up",
+   "risk_score": 100,
+   "risk_band": "HIGH",
+   "confidence": "normal",
+   "agent_id": "agent:cell-a",
+   "args": {},
+   "role": "procurement",
+   "ts": 1792668996.1328616
+  },
+  {
+   "decision_id": "dec-869f3cd846",
+   "tool": "read_doc",
+   "response": "ALLOW",
+   "control": "none",
+   "reason": "within mandate",
+   "risk_score": 0,
+   "risk_band": "LOW",
+   "confidence": "low (cold start: role prior)",
+   "agent_id": "agent:cell-b",
+   "args": {},
+   "role": "research",
+   "ts": 1792668999.087742
+  },
+  {
+   "decision_id": "dec-8ef16702bd",
+   "tool": "web_search",
+   "response": "DENY",
+   "control": "deterministic",
+   "reason": "authority escalation beyond delegated scope",
+   "risk_score": 50,
+   "risk_band": "MEDIUM",
+   "confidence": "low (cold start: role prior)",
+   "agent_id": "agent:cell-b",
+   "args": {},
+   "role": "research",
+   "ts": 1792668999.087742
+  },
+  {
+   "decision_id": "dec-658a9f9a49",
+   "tool": "write_summary",
+   "response": "ALLOW",
+   "control": "none",
+   "reason": "within mandate",
+   "risk_score": 5,
+   "risk_band": "LOW",
+   "confidence": "low (cold start: role prior)",
+   "agent_id": "agent:cell-b",
+   "args": {},
+   "role": "research",
+   "ts": 1792669001.8349617
+  },
+  {
+   "decision_id": "dec-bb285f2917",
+   "tool": "send_email",
+   "response": "ALLOW",
+   "control": "none",
+   "reason": "within mandate",
+   "risk_score": 10,
+   "risk_band": "LOW",
+   "confidence": "low (cold start: role prior)",
+   "agent_id": "agent:cell-b",
+   "args": {},
+   "role": "research",
+   "ts": 1792669001.8349617
+  },
+  {
+   "decision_id": "dec-1ca7a88e2a",
+   "tool": "read_hr_record",
+   "response": "ALLOW",
+   "control": "none",
+   "reason": "within mandate",
+   "risk_score": 15,
+   "risk_band": "LOW",
+   "confidence": "low (cold start: role prior)",
+   "agent_id": "agent:cell-a",
+   "args": {},
+   "role": "procurement",
+   "ts": 1792669004.79975
+  },
+  {
+   "decision_id": "dec-e6e693fbae",
+   "tool": "send_email",
+   "response": "DENY",
+   "control": "recipient_authorization",
+   "reason": "recipient not authorized for HR data",
+   "risk_score": 55,
+   "risk_band": "MEDIUM",
+   "confidence": "low (cold start: role prior)",
+   "agent_id": "agent:cell-a",
+   "args": {},
+   "role": "procurement",
+   "ts": 1792669004.79975
+  },
+  {
+   "decision_id": "dec-2f261f07dc",
+   "tool": "read_hr_record",
+   "response": "DENY",
+   "control": "object_authorization",
+   "reason": "object not authorized for this task's purpose",
+   "risk_score": 70,
+   "risk_band": "HIGH",
+   "confidence": "low (cold start: role prior)",
+   "agent_id": "agent:cell-a",
+   "args": {},
+   "role": "procurement",
+   "ts": 1792669004.79975
+  },
+  {
+   "decision_id": "dec-4ac02be227",
+   "tool": "web_search",
+   "response": "ALLOW",
+   "control": "none",
+   "reason": "within mandate",
+   "risk_score": 5,
+   "risk_band": "LOW",
+   "confidence": "low (cold start: role prior)",
+   "agent_id": "agent:cell-b",
+   "args": {},
+   "role": "research",
+   "ts": 1792669008.1380076
+  },
+  {
+   "decision_id": "dec-3cad445732",
+   "tool": "write_summary",
+   "response": "APPROVAL_REQUIRED",
+   "control": "untrusted_store_write",
+   "reason": "step-up: untrusted_store_write",
+   "risk_score": 25,
+   "risk_band": "LOW",
+   "confidence": "low (cold start: role prior)",
+   "agent_id": "agent:cell-b",
+   "args": {},
+   "role": "research",
+   "ts": 1792669008.1380076
+  },
+  {
+   "decision_id": "dec-29d79bf6dc",
+   "tool": "search_suppliers",
+   "response": "ALLOW",
+   "control": "none",
+   "reason": "within mandate",
+   "risk_score": 0,
+   "risk_band": "LOW",
+   "confidence": "low (cold start: role prior)",
+   "agent_id": "agent:cell-a",
+   "args": {},
+   "role": "procurement",
+   "ts": 1792669541.7835612
+  },
+  {
+   "decision_id": "dec-99b53f0171",
+   "tool": "get_prices",
+   "response": "ALLOW",
+   "control": "none",
+   "reason": "within mandate",
+   "risk_score": 0,
+   "risk_band": "LOW",
+   "confidence": "low (cold start: role prior)",
+   "agent_id": "agent:cell-a",
+   "args": {},
+   "role": "procurement",
+   "ts": 1792669541.7835612
+  },
+  {
+   "decision_id": "dec-5ab1cb4f0b",
+   "tool": "read_supplier_doc",
+   "response": "ALLOW",
+   "control": "none",
+   "reason": "within mandate",
+   "risk_score": 15,
+   "risk_band": "LOW",
+   "confidence": "low (cold start: role prior)",
+   "agent_id": "agent:cell-a",
+   "args": {},
+   "role": "procurement",
+   "ts": 1792669564.7039971
+  },
+  {
+   "decision_id": "dec-b02b2f0101",
+   "tool": "read_hr_record",
+   "response": "DENY",
+   "control": "deterministic",
+   "reason": "out-of-role action",
+   "risk_score": 45,
+   "risk_band": "MEDIUM",
+   "confidence": "low (cold start: role prior)",
+   "agent_id": "agent:cell-a",
+   "args": {},
+   "role": "procurement",
+   "ts": 1792669564.7039971
+  },
+  {
+   "decision_id": "dec-5547e78726",
+   "tool": "send_email",
+   "response": "DENY",
+   "control": "deterministic",
+   "reason": "agent is quarantined",
+   "risk_score": 50,
+   "risk_band": "MEDIUM",
+   "confidence": "low (cold start: role prior)",
+   "agent_id": "agent:cell-a",
+   "args": {},
+   "role": "procurement",
+   "ts": 1792669564.7039971
+  }
+ ],
+ "/api/approvals": [
+  {
+   "id": "apr-22c73b53",
+   "agent_id": "agent:cell-a",
+   "tool": "create_purchase_request",
+   "args": {},
+   "decision_id": "dec-b856cf9d0a",
+   "risk_score": 65,
+   "reason": "step-up: effect_budget",
+   "factors": [
+    {
+     "factor": "effect_budget",
+     "points": 30,
+     "evidence": "identical 'create_purchase_request' already executed 1x in 3600s (budget 1)"
+    },
+    {
+     "factor": "task_scope_deviation",
+     "points": 15,
+     "evidence": "'create_purchase_request' is in the role but not in active task 'price_check' ['search_suppliers', 'get_prices']"
+    },
+    {
+     "factor": "novel_tool",
+     "points": 10,
+     "evidence": "'create_purchase_request' never observed in agent baseline"
+    },
+    {
+     "factor": "impact",
+     "points": 10,
+     "evidence": "impact level 2 (write)"
+    },
+    {
+     "factor": "drift_alert",
+     "points": 0,
+     "evidence": "50 deviation points in the last 10 actions >= 40"
+    }
+   ],
+   "status": "pending",
+   "created": 1792659960.0949898,
+   "kind": "action",
+   "args_hash": "56dd3822923116ee4c7e217c6c72441e74c7efbd82ba6fedac704cb3b10d372e"
+  },
+  {
+   "id": "apr-dbf099c1",
+   "agent_id": "agent:cell-a",
+   "tool": "create_purchase_request",
+   "args": {},
+   "decision_id": "dec-8a45a34e25",
+   "risk_score": 35,
+   "reason": "risk MEDIUM",
+   "factors": [
+    {
+     "factor": "task_scope_deviation",
+     "points": 15,
+     "evidence": "'create_purchase_request' is in the role but not in active task 'price_check' ['search_suppliers', 'get_prices']"
+    },
+    {
+     "factor": "novel_tool",
+     "points": 10,
+     "evidence": "'create_purchase_request' never observed in agent baseline"
+    },
+    {
+     "factor": "impact",
+     "points": 10,
+     "evidence": "impact level 2 (write)"
+    }
+   ],
+   "status": "consumed",
+   "created": 1792659930.750021,
+   "kind": "action",
+   "args_hash": "56dd3822923116ee4c7e217c6c72441e74c7efbd82ba6fedac704cb3b10d372e",
+   "resolved_by": "owner-ui",
+   "note": "authorized purchase",
+   "resolved": 1792659949.3891168
+  }
+ ],
+ "/api/alerts": [],
+ "/api/delegations": []
+}

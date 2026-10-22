@@ -17,7 +17,7 @@ RUN python /fetch_tools.py "$CEDAR_URL" "$CEDAR_SHA256" "$CVC5_URL" "$CVC5_SHA25
 # ---- stage 2: runtime ----
 FROM ${PY_IMAGE}
 COPY requirements.txt /requirements.txt
-RUN pip install --no-cache-dir --disable-pip-version-check -r /requirements.txt \
+RUN pip install -i https://mirrors.aliyun.com/pypi/simple/ --trusted-host mirrors.aliyun.com --no-cache-dir --disable-pip-version-check -r /requirements.txt \
  && pip freeze > /pip_freeze.txt
 COPY --from=tools /opt/tools /opt/tools
 ENV PATH=/opt/tools/bin:$PATH CVC5=/opt/tools/bin/cvc5 PYTHONUNBUFFERED=1
