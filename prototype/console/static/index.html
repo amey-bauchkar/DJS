@@ -3,11 +3,15 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>MANDATE · the permission layer for AI agents</title>
+<title>MANDATE — the permission layer for AI agents</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect x='3' y='3' width='26' height='26' rx='7' fill='%2314171f'/%3E%3Cpath d='M9 22V10l7 7 7-7v12' stroke='%23f6f1e7' stroke-width='3' fill='none' stroke-linejoin='round'/%3E%3C/svg%3E">
-<link rel="stylesheet" href="/styles.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=IBM+Plex+Mono:ital,wght@0,400;0,500;0,600;1,400&family=Manrope:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/styles.css?v=5">
 </head>
 <body>
+<a class="skip" href="#view">Skip to the main content</a>
 <header class="bar">
   <a class="mark" href="#/" aria-label="MANDATE home">
     <svg viewBox="0 0 32 32" aria-hidden="true"><rect x="3" y="3" width="26" height="26" rx="7"/><path d="M9 22V10l7 7 7-7v12"/></svg>
@@ -15,31 +19,34 @@
   </a>
   <nav class="areas" id="areas" aria-label="Main">
     <a href="#/" data-area="home">Home</a>
-    <a href="#/task" data-area="task">Your task</a>
-    <a href="#/demo" data-area="see">See it work</a>
-    <a href="#/agents" data-area="operate">Operate <span class="count" id="nav-ap"></span></a>
-    <a href="#/results" data-area="proof">Proof</a>
+    <a href="#/demo" data-area="try">Try it</a>
+    <a href="#/agents" data-area="manage">Manage <span class="count" id="nav-ap"></span></a>
+    <a href="#/results" data-area="evidence">Evidence</a>
   </nav>
   <div class="live" id="live" aria-live="polite"><span class="dot"></span><span>connecting…</span></div>
-  <label class="tok" id="tokwrap" hidden>Owner token <input id="token" type="password" autocomplete="off"></label>
+  <label class="tok" id="tokwrap" hidden>Owner token <input id="token" type="password" autocomplete="off" placeholder="paste it here"
+    title="The console normally holds this for you. If you started the control plane yourself, this is the MANDATE_OWNER_TOKEN you set."></label>
 </header>
 <nav class="sub" id="sub" aria-label="Section"></nav>
-<!-- route names kept for continuity: #/simulate #/graph #/llm #/demo #/agents #/approvals #/investigate #/audit #/recovery #/results #/diagnostics #/limits -->
+<div id="firstrun" class="firstrun" hidden></div>
 <div id="banner" class="banner" hidden></div>
-<main id="view" aria-live="polite"></main>
+<div id="announce" class="sr-only" role="status" aria-live="polite"></div>
+<main id="view" tabindex="-1"></main>
 <footer class="foot">
   <span id="foot-engine">MANDATE prototype</span>
-  <span>Scripted demo agents (an optional live LLM can be enabled) · mock tool server · outbound effects simulated</span>
-  <span>Not SECURITY-TESTED · not independently reviewed · <a href="#/limits">known limits</a></span>
+  <span>The demo agents follow a script. The tools are a stand-in, and nothing is really sent anywhere.</span>
+  <span>A prototype: not security-tested and not independently reviewed. <a href="#/limits">See the known limits</a></span>
 </footer>
 <div id="tip" class="tip" role="tooltip" hidden></div>
 <dialog id="dlg"><form method="dialog" id="dlgform">
   <h3 id="dlgtitle"></h3><div id="dlgbody"></div>
-  <label id="dlgreasonwrap" class="f">Reason (recorded in the audit trail)<textarea id="dlgreason"></textarea></label>
+  <label id="dlgreasonwrap" class="f">Why are you doing this? <small>Recorded permanently in the audit log.</small><textarea id="dlgreason" placeholder="A sentence is enough."></textarea></label>
   <p class="err" id="dlgerr"></p>
   <menu><button value="cancel" formnovalidate class="ghost">Cancel</button><button id="dlgok" value="ok" class="primary">Confirm</button></menu>
 </form></dialog>
-<script src="/app.js"></script>
-<script src="/workbench.js"></script>
+<!-- route names kept for continuity: #/simulate #/graph #/llm #/demo #/agents #/approvals #/investigate #/audit #/recovery #/results #/diagnostics #/limits -->
+<script src="/lexicon.js?v=5"></script>
+<script src="/app.js?v=5"></script>
+<script src="/workbench.js?v=5"></script>
 </body>
 </html>
